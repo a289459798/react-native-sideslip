@@ -97,5 +97,4 @@ import Sideslip from 'react-native-sideslip'
 |属性名|类型|备注|
 | ------ | ------ | ------ |
 |sideslipView|func|必须属性，需要返回Sideslip.View 的ref|
-|menus|array|title(string，菜单名称), color(string，背景颜色), textStyle(文本样式), type(string, 目前只有delete，删除功能必须传delete), onPress
-(func)|
+|menus|array|title(string，菜单名称), color(string，背景颜色), textStyle(文本样式), type(string, 目前只有delete，删除功能必须传delete), onPress(func)|
