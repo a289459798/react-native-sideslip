@@ -20,10 +20,22 @@ QQ群: 161263093
 > npm install react-native-sideslip --save
 ```
 
-### android
-
 
 ### 使用方式
+
+```$xslt
+<Sideslip.View ref={(r) => this.sideslipView = r} style={styles.container}>
+    ...
+    <Sideslip.Row
+        sideslipView={() => this.sideslipView}
+        menus={[]}>
+        ....
+    </Sideslip.Row>
+    ...
+</Sideslip.View>
+```
+
+#### 示例（listview支持侧滑删除）
 
 ```
 import Sideslip from 'react-native-sideslip'
