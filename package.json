@@ -1,0 +1,29 @@
+{
+  "name": "react-native-sideslip",
+  "version": "1.0.0",
+  "description": "可以让任意view支持侧滑菜单",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "react-native-interactable": "^0.1.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a289459798/react-native-sideslip.git"
+  },
+  "keywords": [
+    "react-native",
+    "侧滑",
+    "listview侧滑",
+    "侧滑菜单",
+    "侧滑删除"
+  ],
+  "author": "zhangzy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a289459798/react-native-sideslip/issues"
+  },
+  "homepage": "https://github.com/a289459798/react-native-sideslip#readme"
+}
