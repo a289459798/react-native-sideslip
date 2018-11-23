@@ -2,8 +2,8 @@
 可以让任意view支持侧滑菜单，处理事件
 
 
-![](./aaa.gif =200x)
-![](./a2.gif =200x)
+<img src="./aaa.gif" width="200"/>
+<img src="./a2.gif" width="200"/>
 
 ##作者
 
