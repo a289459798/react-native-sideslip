@@ -1,6 +1,6 @@
 {
   "name": "react-native-sideslip",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "可以让任意view支持侧滑菜单",
   "main": "index.js",
   "scripts": {
