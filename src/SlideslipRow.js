@@ -1,19 +1,21 @@
 'use strict';
 import React, {
-    Component,
+    PureComponent,
 } from 'react';
 import {
     StyleSheet,
     View,
     Text,
     Animated,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    UIManager,
+    LayoutAnimation
 } from 'react-native';
 import Interactable from 'react-native-interactable';
 
 const PropTypes = require('prop-types');
-
-export default class SlideslipRow extends Component {
+UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+export default class SlideslipRow extends PureComponent {
 
     // 构造
     constructor(props) {
@@ -21,18 +23,20 @@ export default class SlideslipRow extends Component {
         this._deltaX = new Animated.Value(0);
 
         this.index = 0;
-        this.state = {};
+        this.state = {
+            height: '100%'
+        };
     }
 
     render() {
 
         return (
 
-            <View style={{
-                flex: 1, backgroundColor: '#fff', overflow: 'hidden'
-            }}>
+            <View ref={(r) => this.layout = r} style={[{
+                flex: 1, backgroundColor: '#fff', overflow: 'hidden', height: this.state.height
+            }]}>
 
-                <View style={{position: 'absolute', left: 0, right: 0, height: '100%'}}>
+                <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}>
                     {this.props.menus && this.props.menus.map((v, k) => (
                         <Animated.View ref={(r) => this.anim = r} key={k} style={
                             [styles.trashHolder, {
@@ -43,17 +47,35 @@ export default class SlideslipRow extends Component {
 
                             <TouchableWithoutFeedback pointerEvents='box-only' onLayout={(e) => {
                                 this.props.sideslipView && this.props.sideslipView().onTarget(e.target);
-                            }}  onPress={() => {
+                            }} onPress={() => {
                                 this.view.snapTo({index: 0})
                                 if (v.type == 'delete') {
                                     this.props.sideslipView && this.props.sideslipView().onDelete(this.view);
+                                    if (this.props.anim) {
+                                        LayoutAnimation.configureNext({
+                                            duration: 300,
+                                            update: {
+                                                type: LayoutAnimation.Types.linear,
+                                                property: LayoutAnimation.Properties.scaleY
+                                            }
+                                        });
+                                        this.setState({height: 0});
+
+                                        setTimeout(() => {
+                                            this.setState({height: '100%'});
+                                            v.onPress && v.onPress(this.view)
+                                        }, 300)
+                                        return;
+                                    }
+
                                 }
+
                                 v.onPress && v.onPress(this.view)
+
                             }}>
                                 <View pointerEvents='box-only' onLayout={(e) => {
-                                    console.log(e.target);
                                     this.props.sideslipView && this.props.sideslipView().onTarget(e.target);
-                                }} style={{flex:1, width: 80, alignItems: 'center', justifyContent: 'center'}}>
+                                }} style={{flex: 1, width: 80, alignItems: 'center', justifyContent: 'center'}}>
                                     <Text
                                         style={[{color: '#fff', fontSize: 14}, v.textStyle]}>{v.title}</Text></View>
                             </TouchableWithoutFeedback>
@@ -87,7 +109,7 @@ export default class SlideslipRow extends Component {
                         this.props.sideslipView && this.props.sideslipView().onStop(this.view, true);
                     }}
                     animatedValueX={this._deltaX}>
-                    <View style={{left: 0, right: 0}}>
+                    <View style={[{left: 0, right: 0, backgroundColor: '#fff'}, this.props.style]}>
                         {this.props.children}
                     </View>
                 </Interactable.View>
@@ -95,7 +117,6 @@ export default class SlideslipRow extends Component {
             </View>
         );
     }
-
 }
 
 
@@ -103,6 +124,8 @@ SlideslipRow.propTypes = {
 
     menus: PropTypes.array,
     sideslipView: PropTypes.func.isRequired,
+    anim: PropTypes.bool,
+    style: PropTypes.object
 };
 
 const styles = StyleSheet.create({
